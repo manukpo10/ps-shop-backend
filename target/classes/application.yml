@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: TechRepair Backend
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/techrepair
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password:
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+
+server:
+  port: 8080
+
+jwt:
+  secret: dGhpc2lzYXNlY3JldGtleWZvcnprdHNpZ25pbmd0aGF0aXMtbG9uZyBlbm91Z2g=
+  expiration: 86400000
