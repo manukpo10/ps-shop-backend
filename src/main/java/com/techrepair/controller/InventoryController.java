@@ -1,5 +1,6 @@
 package com.techrepair.controller;
 
+import com.techrepair.dto.request.QuantityRequest;
 import com.techrepair.model.InventoryItem;
 import com.techrepair.repository.InventoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import org.springframework.data.domain.Sort;
 
 @RestController
 @RequestMapping("/api/inventory")
@@ -17,7 +20,7 @@ public class InventoryController {
 
     @GetMapping
     public ResponseEntity<List<InventoryItem>> getAll() {
-        return ResponseEntity.ok(inventoryRepository.findAll());
+        return ResponseEntity.ok(inventoryRepository.findAll(Sort.by(Sort.Direction.ASC, "id")));
     }
 
     @GetMapping("/low-stock")
@@ -65,10 +68,10 @@ public class InventoryController {
     }
 
     @PatchMapping("/{id}/quantity")
-    public ResponseEntity<InventoryItem> updateQuantity(@PathVariable Long id, @RequestBody Integer quantity) {
+    public ResponseEntity<InventoryItem> updateQuantity(@PathVariable Long id, @RequestBody QuantityRequest request) {
         return inventoryRepository.findById(id)
                 .map(existing -> {
-                    existing.setQuantity(quantity);
+                    existing.setQuantity(request.getQuantity());
                     return ResponseEntity.ok(inventoryRepository.save(existing));
                 })
                 .orElse(ResponseEntity.notFound().build());

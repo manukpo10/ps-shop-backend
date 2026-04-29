@@ -36,9 +36,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         // Documentación Swagger
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
-                        // Consola H2 (si la usas)
+                        // Consola H2 (solo en desarrollo)
                         .requestMatchers("/h2-console/**").permitAll()
-                        // TODO: Agregar aquí otras rutas públicas si las hay
 
                         // TODA otra ruta requiere estar autenticado
                         .anyRequest().authenticated()

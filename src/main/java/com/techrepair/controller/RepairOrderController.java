@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Sort;
+
 @RestController
 @RequestMapping("/api/repair-orders")
 @RequiredArgsConstructor
@@ -22,7 +24,7 @@ public class RepairOrderController {
         if (status != null) {
             return ResponseEntity.ok(repairOrderRepository.findByStatus(status));
         }
-        return ResponseEntity.ok(repairOrderRepository.findAll());
+        return ResponseEntity.ok(repairOrderRepository.findAll(Sort.by(Sort.Direction.DESC, "id")));
     }
 
     @GetMapping("/{id}")
@@ -60,7 +62,6 @@ public class RepairOrderController {
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<RepairOrder> updateStatus(@PathVariable Long id, @RequestBody Map<String, String> request) {
-        System.out.println("PATCH /repair-orders/" + id + "/status - body: " + request);
         String statusStr = request.get("status");
         RepairStatus status = RepairStatus.valueOf(statusStr);
         return repairOrderRepository.findById(id)
